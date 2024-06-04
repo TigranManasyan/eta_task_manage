@@ -45,6 +45,10 @@ Route::prefix('manager')->middleware(['auth', 'role:manager'])->group(function()
 
     Route::get('tasks', [\App\Http\Controllers\Manager\TaskController::class, "index"])->name('manager.task.index');
     Route::get('tasks/create', [\App\Http\Controllers\Manager\TaskController::class, "create"])->name('manager.task.create');
+    Route::post('tasks', [\App\Http\Controllers\Manager\TaskController::class, "store"])->name('manager.task.store');
+    Route::delete('tasks/{id}', [\App\Http\Controllers\Manager\TaskController::class, 'destroy'])->name('manager.task.delete');
+
+    Route::put('tasks/edit/{id}', [\App\Http\Controllers\Manager\TaskController::class, "update"])->name('manager.task.update');
     Route::get('tasks/{id}', [\App\Http\Controllers\Manager\TaskController::class, "show"])->name('manager.task.show');
     Route::get('tasks/edit/{id}', [\App\Http\Controllers\Manager\TaskController::class, "edit"])->name('manager.task.edit');
 });

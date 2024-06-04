@@ -17,7 +17,11 @@ class Task extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'images' => 'array', 
+    ];
+
     public function user() {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

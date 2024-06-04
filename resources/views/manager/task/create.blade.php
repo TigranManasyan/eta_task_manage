@@ -8,7 +8,7 @@
                     <div class="card-header">Ստեղծել նոր առաջադրանք</div>
 
                     <div class="card-body">
-                        <form method="POST" action=" " enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('manager.task.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="form-group row">
@@ -27,7 +27,6 @@
                                 <label for="description" class="col-md-4 col-form-label text-md-right">Նկարագրություն</label>
                                 <div class="col-md-6">
                                     <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" required autocomplete="description" autofocus cols="30" rows="10">{{ old('description') }}</textarea>
-
                                     @error('description')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -39,7 +38,7 @@
                             <div class="form-group row">
                                 <label for="images" class="col-md-4 col-form-label text-md-right">Նկարներ</label>
                                 <div class="col-md-6">
-                                    <input id="images" type="file" class="form-control @error('images') is-invalid @enderror" name="images[]" multiple value="{{ old('images') }}" required autocomplete="images" autofocus>
+                                    <input id="images" type="file" class="form-control @error('images') is-invalid @enderror" name="images[]" multiple>
                                     @error('images')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -84,7 +83,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="user_id" class="col-md-4 col-form-label text-md-right">Կարևորություն</label>
+                                <label for="user_id" class="col-md-4 col-form-label text-md-right">Աշխատակից</label>
                                 <div class="col-md-6">
                                     <select class="form-control @error('user_id') is-invalid @enderror" name="user_id" id="user_id">
                                         @foreach($users as $user)
