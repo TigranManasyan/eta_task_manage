@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit User</div>
+                <div class="card-header">Օգտվողի խմբագրում</div>
 
                 <div class="card-body">
                     @if ($errors->any())

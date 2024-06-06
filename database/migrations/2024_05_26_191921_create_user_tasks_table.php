@@ -14,9 +14,9 @@ class CreateUserTasksTable extends Migration
     public function up()
     {
         Schema::create('user_tasks', function (Blueprint $table) {
-            $table->foreignId("user_id")->constrained();
+            $table->foreignId("user_id")->constrained()->onDelete('cascade');
             $table->foreignId("task_id")->constrained();
-            $table->enum("status", ['pending', 'completed']);
+            $table->enum("status", ['Ընթացիկ', 'Ավարտված']);
         });
     }
 

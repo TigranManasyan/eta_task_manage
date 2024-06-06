@@ -29,7 +29,7 @@
                             @foreach ($tasks as $task)
                                 <tr>
                                     <td>{{ $task->title }}</td>
-                                    <td>{{ $task->user->name }}</td>
+                                    <td>{{ $task->name }}</td>
                                     <td>
                                         <a href="{{ route('manager.task.show', $task->id) }}" class="btn btn-success btn-sm">Մանրամասն</a>
 

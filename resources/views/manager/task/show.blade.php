@@ -56,7 +56,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Հեռացնե՞լ առաջադրանքը')">Հեռացնել</button>
                                 </form>
-                                <a href="{{ route('manager.task.index') }}" class="btn btn-primary">Վերադառնալ</a>
+                                <a href="{{ route('manager.task.index') }}" class="btn btn-primary mt-2">Վերադառնալ</a>
                             </div>
                         </div>
                     </div>

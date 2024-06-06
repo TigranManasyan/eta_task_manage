@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 
@@ -37,20 +37,25 @@ Route::prefix('manager')->middleware(['auth', 'role:manager'])->group(function()
     Route::get("users", [\App\Http\Controllers\Manager\UserController::class, "index"])->name('manager.user.index');
     Route::get("users/create", [\App\Http\Controllers\Manager\UserController::class, "create"])->name('manager.user.create');
     Route::get("users/{id}/edit", [\App\Http\Controllers\Manager\UserController::class, "edit"])->name('manager.user.edit');
-    Route::get("users/{id}/delete", [\App\Http\Controllers\Manager\UserController::class, "destroy"])->name('manager.user.delete');
+    Route::get("users/{id}/delete", [\App\Http\Controllers\Manager\UserController::class, "delete"])->name('manager.user.delete');
     Route::post("users/store", [\App\Http\Controllers\Manager\UserController::class, "store"])->name('manager.user.store');
     Route::post("users/update", [\App\Http\Controllers\Manager\UserController::class, "update"])->name('manager.user.update');
-
     //Tasks
-
     Route::get('tasks', [\App\Http\Controllers\Manager\TaskController::class, "index"])->name('manager.task.index');
     Route::get('tasks/create', [\App\Http\Controllers\Manager\TaskController::class, "create"])->name('manager.task.create');
     Route::post('tasks', [\App\Http\Controllers\Manager\TaskController::class, "store"])->name('manager.task.store');
     Route::delete('tasks/{id}', [\App\Http\Controllers\Manager\TaskController::class, 'destroy'])->name('manager.task.delete');
-
     Route::put('tasks/edit/{id}', [\App\Http\Controllers\Manager\TaskController::class, "update"])->name('manager.task.update');
     Route::get('tasks/{id}', [\App\Http\Controllers\Manager\TaskController::class, "show"])->name('manager.task.show');
     Route::get('tasks/edit/{id}', [\App\Http\Controllers\Manager\TaskController::class, "edit"])->name('manager.task.edit');
+});
+Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\User\IndexController::class, 'index'])->name('user.dash');
+    Route::prefix('tasks')->group(function() {
+        Route::get("/", [\App\Http\Controllers\User\TaskController::class, "index"])->name('user.task.index');
+        Route::get("/{id}", [\App\Http\Controllers\User\TaskController::class, "show"])->name('user.task.show');
+        Route::post("/change_status", [\App\Http\Controllers\User\TaskController::class, "change_status"])->name('user.task.change_status');
+    });
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

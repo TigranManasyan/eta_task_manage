@@ -33,13 +33,9 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
-                                        <a href="{{ route('manager.user.edit', $user->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="{{ route('manager.user.edit', $user->id) }}" class="btn btn-success btn-sm">Խմբագրել</a>
+                                        <a href="{{ route('manager.user.delete', $user->id) }}" class="btn btn-danger btn-sm">Հեռացնել</a>
 
-                                        <form action="" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -49,6 +50,7 @@ class UserController extends Controller
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
+            'created_by' => Auth::user()->id,
         ]);
 
         $user->assignRole("user");
@@ -87,9 +89,16 @@ class UserController extends Controller
 
     public function delete($id) {
         $user = User::findOrFail($id);
+        $tasks = DB::table('tasks')->where("user_id", "=", $user->id)->get();
+
+
+        foreach ($tasks as $task) {
+
+            DB::table('user_tasks')->where("task_id", "=", $task->id)->update(['user_id' => Auth::user()->id]);
+        }
         $delete = $user->delete();
         if($delete) {
-            return view("manager.user.index", compact("user"));
+            return redirect()->route('manager.user.index')->with('success', 'Տվյալները հաջողությամբ հեռացվել են');
         }
 
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,7 @@ class UserController extends Controller
 
         $user->assignRole("manager");
 
-        return redirect()->route('admin.user.index')->with('success', 'User created successfully.');
+        return redirect()->route('admin.user.index')->with('success', 'Տվյալները հաջողությամբ պահպանվել են');
     }
 
 
@@ -78,20 +79,30 @@ class UserController extends Controller
 
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
+        $user->created_by = Auth::user()->id;
         if (!empty($validatedData['password'])) {
             $user->password = Hash::make($validatedData['password']);
         }
         $user->save();
 
-        return redirect()->route('admin.user.index')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.user.index')->with('success', 'Տվյալները հաջողությամբ թարմացվել են');
     }
 
 
     public function destroy($id) {
         $user = User::findOrFail($id);
+        $tasks = DB::table('tasks')->where("user_id", "=", $user->id)->get();
+
+
+        foreach ($tasks as $task) {
+
+            DB::table('user_tasks')->where("task_id", "=", $task->id)->delete();
+        }
+
+        DB::table('tasks')->where("user_id", "=", $user->id)->delete();
+        DB::table('users')->where("created_by", "=", $user->id)->delete();
+
         $user->delete();
-
-
-        return redirect()->route('admin.user.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.user.index')->with('success', 'Տվյալները հաջողությամբ հեռացվել են');
     }
 }
